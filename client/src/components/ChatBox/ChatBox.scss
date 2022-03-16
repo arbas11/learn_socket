@@ -1,0 +1,137 @@
+@import "../../styles/variable.scss";
+
+.chat-box {
+  height: 700px;
+  width: 600px;
+  background-color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  .chat-header {
+    height: 100%;
+    font-family: $nunito;
+    flex-basis: 10%;
+    background: radial-gradient(black 40%, rgba(15, 15, 15, 0.733));
+    color: azure;
+    text-transform: uppercase;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chat-body {
+    flex-basis: 85%;
+    background-color: aliceblue;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    .bubble-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-right: 1.5em;
+      margin-left: 1.5em;
+      margin-top: 1em;
+    }
+    .bubble-msg {
+      border-radius: 20px;
+      padding: 0.5em 1em;
+      margin-bottom: 0.1em;
+      flex-basis: max-content;
+      text-align: left;
+    }
+    #send-color {
+      background-color: #147efb;
+      color: white;
+      margin-left: 3.5em;
+    }
+    #receive-color {
+      background-color: #8e8e93;
+      color: white;
+      margin-right: 3.5em;
+    }
+    .msg-status-container {
+      display: flex;
+      justify-content: flex-start;
+      gap: 0.5em;
+    }
+    .bubble-msg-status {
+      font-size: 0.6em;
+    }
+    #send {
+      align-items: flex-end;
+    }
+    #receive {
+      align-items: flex-start;
+    }
+  }
+  .chat-footer {
+    flex-basis: 5%;
+    display: flex;
+    input {
+      width: 85%;
+    }
+    button {
+      width: 15%;
+    }
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    input {
+      border: unset;
+      font-size: 1.3rem;
+      width: 80%;
+      background: transparent;
+      padding: 0.7em;
+      --border-width: 0.1em;
+      --animation-speed: 0.5s;
+      color: black;
+      position: relative;
+      display: inline-block;
+      line-height: 1em;
+      transform: scale(1, 0.8);
+      border: 2px solid transparent;
+      transition: all 0.6s linear;
+      &:active,
+      &:focus {
+        outline: transparent;
+        border-top: 1px solid black;
+        width: 82%;
+        animation: 0.5ms forwards ease-in-out;
+      }
+      &::placeholder {
+        color: black;
+        opacity: 0.7;
+        text-align: center;
+      }
+      &:focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+      &:focus:-moz-placeholder {
+        color: transparent;
+      } /* Firefox 18- */
+      &:focus::-moz-placeholder {
+        color: transparent;
+      } /* Firefox 19+ */
+      &:focus:-ms-input-placeholder {
+        color: transparent;
+      } /* oldIE ;) */
+    }
+    button {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      border-style: none;
+      font-size: 1.5rem;
+      &:active {
+        font-size: 1.9em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .chat-box {
+    height: 100%;
+    width: 100%;
+  }
+}

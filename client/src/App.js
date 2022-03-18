@@ -9,23 +9,29 @@ const socket = io.connect("http://localhost:3001");
 function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
-  const [chatRoom, setChatRoom] = useState(true);
+  const [chatRoom, setChatRoom] = useState(false);
 
   return (
     <div className="App">
       {chatRoom ? (
-        <LoginForm
+        <ChatBox
           socket={socket}
           username={username}
-          setUsername={setUsername}
           room={room}
-          setRoom={setRoom}
-          chatRoom={chatRoom}
           setChatRoom={setChatRoom}
+          chatRoom={chatRoom}
         />
       ) : (
         <>
-          <ChatBox socket={socket} username={username} room={room} />{" "}
+          <LoginForm
+            socket={socket}
+            username={username}
+            setUsername={setUsername}
+            room={room}
+            setRoom={setRoom}
+            chatRoom={chatRoom}
+            setChatRoom={setChatRoom}
+          />
         </>
       )}
     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoPaperPlane } from 'react-icons/io5';
 
-function ChatBox({ socket, username, room }) {
+function ChatBox({ socket, username, room, setChatRoom, chatRoom }) {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageHist, setMessageHist] = useState([]);
     const scrollNewChat = useRef(null)
@@ -12,36 +12,51 @@ function ChatBox({ socket, username, room }) {
             block: "nearest",
             inline: "start"
           })
+          return;
     }, [ messageHist ])
 
-    const date = new Date();
-    let currentHours = date.getHours();
-    let currentMinutes = date.getMinutes();
-    currentHours = ("0" + currentHours).slice(-2);
-    currentMinutes = ("0" + currentMinutes).slice(-2);
+    const time = ()=>{
+        const date = new Date();
+        let currentHours = date.getHours();
+        let currentMinutes = date.getMinutes();
+        currentHours = ("0" + currentHours).slice(-2);
+        currentMinutes = ("0" + currentMinutes).slice(-2);
+        return currentHours + ":" + currentMinutes
+    }
+
+    const capitalise= (msg) =>{
+        const firstLetter = msg[0].toUpperCase()
+        return firstLetter + msg.slice(1)
+    }
+
     const sendMessage = async ()=>{
         if( currentMessage !== ""){
+        const capsMsg = capitalise(currentMessage);
         const messageData ={
             room: room,
             author: username,
-            message: currentMessage,
-            time: currentHours + ":" + currentMinutes,
+            message: capsMsg,
+            time: time(),
         }
         await socket.emit("send_message", messageData)
         setCurrentMessage(messageData.message)
         setMessageHist([...messageHist, messageData])
         setCurrentMessage("")}
     }
+    
     useEffect(() => {
         socket.on("receive_message", (data)=>{
             setMessageHist([...messageHist, data])
-            console.log(data)
         })
     }, [socket, messageHist])
     
   return (
     <div className='chat-box'>
-        <div className='chat-header'>{room}</div>
+        <div className='chat-header'>
+            <div>{room}</div>
+            <button onClick={()=>{
+                setChatRoom(false)}}>out</button>
+        </div>
         <div className='chat-body'>
             <>
             {messageHist.map((v, idx)=>{
@@ -58,7 +73,7 @@ function ChatBox({ socket, username, room }) {
         </div>
         <div className='chat-footer'>
         <input type="text" 
-        placeholder='type your message' 
+        placeholder='Say Hi...' 
         onChange={(e)=>setCurrentMessage(e.target.value)} 
         value={currentMessage}
         onKeyPress={(e)=>{

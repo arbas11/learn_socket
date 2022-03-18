@@ -2,10 +2,8 @@ import React from 'react'
 
 function LoginForm({username, setUsername, room, setRoom, setChatRoom, socket}) {
     const joinChat = () => {
-        console.log(room);
-        console.log(username);
         socket.emit("join_room", room);
-        setChatRoom(false)
+        setChatRoom(true)
       };
   return (
     <div className='outer-login'>
